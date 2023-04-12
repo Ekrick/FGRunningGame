@@ -80,10 +80,7 @@ void ARGCharacter::Move(const FInputActionValue& Value)
 
 	if (Controller != nullptr)
 	{
-		const FRotator Rotation = Controller->GetControlRotation();
-		const FRotator YawRotation(0, Rotation.Yaw, 0);
-
-		const FVector PlayerRight = FRotationMatrix(YawRotation).GetUnitAxis(EAxis::Y);
+		const FVector PlayerRight = GetActorRightVector();
 
 		AddMovementInput(PlayerRight, MovementValue);
 	}
