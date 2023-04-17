@@ -3,14 +3,14 @@
 #pragma once
 
 #include "CoreMinimal.h"
-#include "RGSpawnableObstacle.h"
-#include "RGSpawnableProjectile.generated.h"
+#include "RGSpawnableObjectBase.h"
+#include "RGSpawnableObstacle.generated.h"
 
 /**
  * 
  */
 UCLASS()
-class RUNNINGGAME_API ARGSpawnableProjectile : public ARGSpawnableObstacle
+class RUNNINGGAME_API ARGSpawnableObstacle : public ARGSpawnableObjectBase
 {
 	GENERATED_BODY()
 	

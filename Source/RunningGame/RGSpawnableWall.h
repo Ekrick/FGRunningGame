@@ -4,13 +4,13 @@
 
 #include "CoreMinimal.h"
 #include "RGSpawnableObstacle.h"
-#include "RGSpawnableProjectile.generated.h"
+#include "RGSpawnableWall.generated.h"
 
 /**
  * 
  */
 UCLASS()
-class RUNNINGGAME_API ARGSpawnableProjectile : public ARGSpawnableObstacle
+class RUNNINGGAME_API ARGSpawnableWall : public ARGSpawnableObstacle
 {
 	GENERATED_BODY()
 	
