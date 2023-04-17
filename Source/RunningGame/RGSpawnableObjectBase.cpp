@@ -2,6 +2,7 @@
 
 
 #include "RGSpawnableObjectBase.h"
+#include "Components/StaticMeshComponent.h"
 
 // Sets default values
 ARGSpawnableObjectBase::ARGSpawnableObjectBase()
@@ -20,6 +21,11 @@ void ARGSpawnableObjectBase::BeginPlay()
 {
 	Super::BeginPlay();
 	
+}
+
+TObjectPtr<UStaticMeshComponent> ARGSpawnableObjectBase::GetMesh()
+{
+	return ObjectMesh;
 }
 
 // Called every frame
