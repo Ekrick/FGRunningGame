@@ -3,6 +3,7 @@
 
 #include "RGSpawnerBase.h"
 
+
 // Sets default values
 ARGSpawnerBase::ARGSpawnerBase()
 {
@@ -25,3 +26,7 @@ void ARGSpawnerBase::Tick(float DeltaTime)
 
 }
 
+void ARGSpawnerBase::SpawnObject()
+{
+
+}
