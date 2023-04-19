@@ -15,14 +15,26 @@ UCLASS()
 class RUNNINGGAME_API ARGSpawnablePlatform : public ARGSpawnableObjectBase
 {
 	GENERATED_BODY()
+
+public:
+	ARGSpawnablePlatform();
 	
+private:
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Mesh, meta = (AllowPrivateAccess = "true"))
 	TObjectPtr<UStaticMeshComponent> SideMesh1;
 
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Mesh, meta = (AllowPrivateAccess = "true"))
 	TObjectPtr<UStaticMeshComponent> SideMesh2;
 
+	void Recycle();
+
 public:
-	ARGSpawnablePlatform();
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Settings)
+	float Boundary = -100.0f;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Settings)
+	float RecycleDistance = 10000.0f;
+
+	virtual void Tick(float DeltaTime) override;
 
 };

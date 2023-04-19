@@ -16,3 +16,20 @@ ARGSpawnablePlatform::ARGSpawnablePlatform()
 	SideMesh1->SetCollisionProfileName(MeshCollisionProfileName);
 	SideMesh2->SetCollisionProfileName(MeshCollisionProfileName);
 }
+
+void ARGSpawnablePlatform::Recycle()
+{
+	FVector PlatformPosition = this->GetActorLocation();
+
+	if (PlatformPosition.X <= Boundary)
+	{
+		PlatformPosition.X += RecycleDistance;
+		this->SetActorLocation(PlatformPosition);
+	}
+}
+
+void ARGSpawnablePlatform::Tick(float DeltaTime)
+{
+	ARGSpawnableObjectBase::MoveObject(DeltaTime);
+	Recycle();
+}
