@@ -6,15 +6,19 @@
 #include "RGSpawnableObjectBase.h"
 #include "RGSpawnableObstacle.generated.h"
 
-/**
- * 
- */
+class UBoxComponent;
+
 UCLASS()
 class RUNNINGGAME_API ARGSpawnableObstacle : public ARGSpawnableObjectBase
 {
 	GENERATED_BODY()
-	
 public:
+	ARGSpawnableObstacle();
+
+public:
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	TObjectPtr<UBoxComponent> CollisionArea;
+
 	UFUNCTION()
 	void OnBeginOverlap(
 		UPrimitiveComponent* OverlappedComponent,

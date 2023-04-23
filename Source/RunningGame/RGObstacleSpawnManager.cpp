@@ -24,8 +24,8 @@ void ARGObstacleSpawnManager::Tick(float DeltaTime)
 
 void ARGObstacleSpawnManager::ZigZag(float Deltatime)
 {
-	float minPos = 100.0f;
-	float maxPos = 1100.0f;
+	float minPos = 200.0f;
+	float maxPos = 1000.0f;
 
 	FVector ActorPosition = this->GetActorLocation();
 
@@ -44,6 +44,7 @@ void ARGObstacleSpawnManager::SpawnObject()
 	if (b_canSpawn)
 	{
 	FVector SpawnPoint = this->GetActorLocation();
+	SpawnPoint.X -= 100.f;
 	GetWorld()->SpawnActor<ARGSpawnableObjectBase>(ARGSpawnerBase::SpawnedObject, SpawnPoint, FRotator::ZeroRotator);
 	b_canSpawn = false;
 	}

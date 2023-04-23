@@ -23,7 +23,7 @@ protected:
 
 public:	
 
-	void TakeDamage();
+	void PlayerHit();
 
 	int GetHealth() { return m_health; }
 

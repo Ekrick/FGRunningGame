@@ -2,6 +2,7 @@
 
 
 #include "RGPlayerHealthComponent.h"
+#include "Kismet/KismetSystemLibrary.h"
 
 URGPlayerHealthComponent::URGPlayerHealthComponent()
 {
@@ -22,10 +23,10 @@ void URGPlayerHealthComponent::BeginPlay()
 
 
 
-void URGPlayerHealthComponent::TakeDamage()
+void URGPlayerHealthComponent::PlayerHit()
 {
 	m_health -= m_health;
-
+	UKismetSystemLibrary::PrintString(this, "damage", true, true, FLinearColor::Red, 2.f);
 	if (m_health <= 0)
 	{
 

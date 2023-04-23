@@ -12,12 +12,14 @@ class UCameraComponent;
 class UInputMappingContext;
 class UInputAction;
 class UStaticMeshComponent;
+class URGPlayerHealthComponent;
 
 UCLASS()
 class RUNNINGGAME_API ARGCharacter : public ACharacter
 {
 	GENERATED_BODY()
 
+private:
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Camera, meta = (AllowPrivateAccess = "true"))
 	TObjectPtr<USpringArmComponent> CameraBoom;
 
@@ -36,6 +38,9 @@ class RUNNINGGAME_API ARGCharacter : public ACharacter
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Mesh, meta = (AllowPrivateAccess = "true"))
 	TObjectPtr<UStaticMeshComponent> PlayerMesh;
 
+
+	int m_health;
+
 public:
 	// Sets default values for this character's properties
 	ARGCharacter();
@@ -48,7 +53,10 @@ protected:
 	void Move(const FInputActionValue& Value);
 
 
-public:	
+public:
+	int GetHealth() { return m_health; }
+
+	void PlayerHit();
 	
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;

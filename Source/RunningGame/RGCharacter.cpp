@@ -11,6 +11,8 @@
 #include "GameFramework/SpringArmComponent.h"
 #include "EnhancedInputComponent.h"
 #include "EnhancedInputSubsystems.h"
+#include "Kismet/KismetSystemLibrary.h"
+
 
 // Sets default values
 ARGCharacter::ARGCharacter()
@@ -50,6 +52,18 @@ void ARGCharacter::BeginPlay()
 		}
 	}
 	
+	m_health = 3;
+}
+
+
+void ARGCharacter::PlayerHit()
+{
+	m_health --;
+	UKismetSystemLibrary::PrintString(this, "damage", true, true, FLinearColor::Red, 2.f);
+	if (m_health <= 0)
+	{
+		UKismetSystemLibrary::PrintString(this, "dead", true, true, FLinearColor::Red, 2.f);
+	}
 }
 
 // Called every frame
