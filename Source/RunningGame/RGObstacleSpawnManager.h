@@ -3,18 +3,17 @@
 #pragma once
 
 #include "CoreMinimal.h"
+#include "GameFramework/Actor.h"
 #include "RGSpawnerBase.h"
 #include "RGSpawnableObjectBase.h"
+#include "RGSpawnableObstacle.h"
 #include "RGObstacleSpawnManager.generated.h"
 
-/**
- * 
- */
-
+class ARGSpawnableObstacle;
 class UStaticMeshComponent;
 
 UCLASS()
-class RUNNINGGAME_API ARGObstacleSpawnManager : public ARGSpawnerBase
+class RUNNINGGAME_API ARGObstacleSpawnManager : public AActor
 {
 	GENERATED_BODY()
 	
@@ -28,11 +27,16 @@ private:
 	//spawn variables
 	bool b_canSpawn = true;
 
-	float f_currentTimer = 0;
+	float f_currentTimer;
 
-	float f_interval;
+
+	TArray<TObjectPtr<ARGSpawnableObstacle>> ProjectileArray;
+
 
 public:
+	UPROPERTY(EditDefaultsOnly, Category = "Settings")
+	TSubclassOf<ARGSpawnableObstacle>SpawnedObject;
+
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Mesh)
 	TObjectPtr<UStaticMeshComponent> ObjectMesh;
 
@@ -40,10 +44,18 @@ public:
 	float MoveSpeed = 500.0f;
 
 	UPROPERTY(EditAnywhere, Category = "Settings")
-	float f_timerMax = 3.0f;
+	float TimerMax = 3.0f;
+
+	UPROPERTY(EditAnywhere, Category = "Settings")
+	float TimerMin = 1.0f;
+
+	UPROPERTY(EditAnywhere, Category = "Settings")
+	int ProjectileCount = 5;
 
 private:
-	virtual void SpawnObject() override;
+	TObjectPtr<ARGSpawnableObstacle> SpawnObject();
+
+	void ProjectilePooler();
 
 	void SpawnTimer(float Deltatime);
 
@@ -52,4 +64,6 @@ private:
 public:
 
 	virtual void Tick(float DeltaTime) override;
+
+	virtual void BeginPlay() override;
 };

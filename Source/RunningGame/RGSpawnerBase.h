@@ -4,29 +4,54 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/Actor.h"
-#include "RGSpawnableObjectBase.h"
+#include "RGSpawnableObstacle.h"
 #include "RGSpawnerBase.generated.h"
+
+
 
 UCLASS()
 class RUNNINGGAME_API ARGSpawnerBase : public AActor
 {
 	GENERATED_BODY()
-	
-public:	
-	// Sets default values for this actor's properties
+
+public:
 	ARGSpawnerBase();
 
-	UPROPERTY(EditDefaultsOnly)
-	TSubclassOf<ARGSpawnableObjectBase>SpawnedObject;
+private:
 
-protected:
-	// Called when the game starts or when spawned
-	virtual void BeginPlay() override;
+	//spawn variables
+	bool b_canSpawn = true;
 
-	virtual void SpawnObject();
+	float f_currentTimer;
 
-public:	
-	// Called every frame
+
+	TArray<TObjectPtr<ARGSpawnableObstacle>> PoolArray;
+
+
+public:
+	UPROPERTY(EditDefaultsOnly, Category = "Settings")
+		TSubclassOf<ARGSpawnableObstacle>SpawnedObject;
+
+	UPROPERTY(EditAnywhere, Category = "Settings")
+		float TimerMax = 3.0f;
+
+	UPROPERTY(EditAnywhere, Category = "Settings")
+		float TimerMin = 1.0f;
+
+	UPROPERTY(EditAnywhere, Category = "Settings")
+		int ProjectileCount = 5;
+
+private:
+	TObjectPtr<ARGSpawnableObstacle> SpawnObject();
+
+	void ProjectilePooler();
+
+	void SpawnTimer(float Deltatime);
+
+
+public:
+
 	virtual void Tick(float DeltaTime) override;
 
+	virtual void BeginPlay() override;
 };

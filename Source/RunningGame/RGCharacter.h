@@ -42,12 +42,10 @@ private:
 	int m_health;
 
 public:
-	// Sets default values for this character's properties
 	ARGCharacter();
 
 
 protected:
-	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
 
 	void Move(const FInputActionValue& Value);
@@ -58,10 +56,10 @@ public:
 
 	void PlayerHit();
 	
-	// Called every frame
+	void OutOfBounds();
+
 	virtual void Tick(float DeltaTime) override;
 
-	// Called to bind functionality to input
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
 
 };

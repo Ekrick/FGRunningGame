@@ -12,6 +12,8 @@
 #include "EnhancedInputComponent.h"
 #include "EnhancedInputSubsystems.h"
 #include "Kismet/KismetSystemLibrary.h"
+#include "Kismet/GameplayStatics.h"
+
 
 
 // Sets default values
@@ -55,25 +57,33 @@ void ARGCharacter::BeginPlay()
 	m_health = 3;
 }
 
-
-void ARGCharacter::PlayerHit()
-{
-	m_health --;
-	UKismetSystemLibrary::PrintString(this, "damage", true, true, FLinearColor::Red, 2.f);
-	if (m_health <= 0)
-	{
-		UKismetSystemLibrary::PrintString(this, "dead", true, true, FLinearColor::Red, 2.f);
-	}
-}
-
-// Called every frame
 void ARGCharacter::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
 
+	ARGCharacter::OutOfBounds();
 }
 
-// Called to bind functionality to input
+void ARGCharacter::PlayerHit()
+{
+	m_health --;
+	UKismetSystemLibrary::PrintString(this, "hit", true, true, FLinearColor::Red, 2.f);
+	if (m_health <= 0)
+	{
+		UKismetSystemLibrary::PrintString(this, "dead", true, true, FLinearColor::Red, 2.f);
+		UGameplayStatics::OpenLevel(this, FName(*GetWorld()->GetName()), false);
+	}
+}
+
+void ARGCharacter::OutOfBounds()
+{
+	if (this->GetActorLocation().Z < -200)
+	{
+		UKismetSystemLibrary::PrintString(this, "dead", true, true, FLinearColor::Red, 2.f);
+		UGameplayStatics::OpenLevel(this, FName(*GetWorld()->GetName()), false);
+	}
+}
+
 void ARGCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
 {
 	Super::SetupPlayerInputComponent(PlayerInputComponent);

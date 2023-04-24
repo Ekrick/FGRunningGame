@@ -1,32 +1,83 @@
-// Fill out your copyright notice in the Description page of Project Settings.
 
 
 #include "RGSpawnerBase.h"
+#include "RGSpawnableObstacle.h"
 
 
-// Sets default values
 ARGSpawnerBase::ARGSpawnerBase()
 {
- 	// Set this actor to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = true;
 
 }
 
-// Called when the game starts or when spawned
 void ARGSpawnerBase::BeginPlay()
 {
 	Super::BeginPlay();
-	
-}
 
-// Called every frame
+	f_currentTimer = FMath::FRandRange(TimerMin, TimerMax);
+}
+	
 void ARGSpawnerBase::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
-
+	ARGSpawnerBase::SpawnTimer(DeltaTime);
+	ARGSpawnerBase::ProjectilePooler();
 }
 
-void ARGSpawnerBase::SpawnObject()
+
+void ARGSpawnerBase::ProjectilePooler()
 {
-
+	if (b_canSpawn)
+	{
+		if (PoolArray.IsEmpty())
+		{
+			b_canSpawn = false;
+			TObjectPtr<ARGSpawnableObstacle> newprojectile = SpawnObject();
+			PoolArray.Add(newprojectile);
+		}
+		else if (PoolArray.Num() < ProjectileCount)
+		{
+			b_canSpawn = false;
+			TObjectPtr<ARGSpawnableObstacle> newprojectile = SpawnObject();
+			PoolArray.Add(newprojectile);
+		}
+		else
+		{
+			b_canSpawn = false;
+			TObjectPtr<ARGSpawnableObstacle> pooledprojectile = PoolArray[0];
+			if (pooledprojectile->GetActorLocation().X < 0)
+			{
+				FVector spawnpoint = this->GetActorLocation();
+				spawnpoint.X -= 100.f;
+				pooledprojectile->SetActorLocation(spawnpoint);
+				PoolArray.RemoveSingle(pooledprojectile);
+				PoolArray.Add(pooledprojectile);
+			}
+		}
+	}
 }
+
+TObjectPtr<ARGSpawnableObstacle> ARGSpawnerBase::SpawnObject()
+{
+	FVector spawnpoint = this->GetActorLocation();
+	spawnpoint.X -= 100.f;
+	TObjectPtr<ARGSpawnableObstacle> spawnobject = GetWorld()->SpawnActor<ARGSpawnableObstacle>(SpawnedObject, spawnpoint, FRotator::ZeroRotator);
+	return spawnobject;
+}
+
+void ARGSpawnerBase::SpawnTimer(float dt)
+{
+	if (!b_canSpawn)
+	{
+		if (f_currentTimer >= 0)
+		{
+			f_currentTimer -= dt;
+		}
+		else
+		{
+			b_canSpawn = true;
+			f_currentTimer = FMath::FRandRange(TimerMin, TimerMax);
+		}
+	}
+}
+
