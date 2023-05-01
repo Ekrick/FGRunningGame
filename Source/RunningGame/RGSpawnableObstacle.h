@@ -15,6 +15,9 @@ class RUNNINGGAME_API ARGSpawnableObstacle : public ARGSpawnableObjectBase
 public:
 	ARGSpawnableObstacle();
 
+private:
+	void Disappear();
+
 public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 	TObjectPtr<UBoxComponent> CollisionArea;

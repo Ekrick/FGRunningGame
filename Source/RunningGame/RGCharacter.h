@@ -3,40 +3,38 @@
 #pragma once
 
 #include "CoreMinimal.h"
-#include "GameFramework/Character.h"
+#include "GameFramework/Actor.h"
 #include "InputActionValue.h"
 #include "RGCharacter.generated.h"
 
-class USpringArmComponent;
-class UCameraComponent;
-class UInputMappingContext;
-class UInputAction;
+//class USpringArmComponent;
+//class UCameraComponent;
+//class UInputMappingContext;
+//class UInputAction;
+class UCapsuleComponent;
 class UStaticMeshComponent;
-class URGPlayerHealthComponent;
+
 
 UCLASS()
-class RUNNINGGAME_API ARGCharacter : public ACharacter
+class RUNNINGGAME_API ARGCharacter : public AActor
 {
 	GENERATED_BODY()
 
 private:
-	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Camera, meta = (AllowPrivateAccess = "true"))
-	TObjectPtr<USpringArmComponent> CameraBoom;
+	//UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Camera, meta = (AllowPrivateAccess = "true"))
+	//TObjectPtr<USpringArmComponent> CameraBoom;
 
-	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Camera, meta = (AllowPrivateAccess = "true"))
-	TObjectPtr<UCameraComponent> FollowCamera;
+	//UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Camera, meta = (AllowPrivateAccess = "true"))
+	//TObjectPtr<UCameraComponent> FollowCamera;
 
-	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Input, meta = (AllowPrivateAccess = "true"))
-	TObjectPtr<UInputMappingContext> MappingContext;
+	//UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Input, meta = (AllowPrivateAccess = "true"))
+	//TObjectPtr<UInputMappingContext> MappingContext;
 
-	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Input, meta = (AllowPrivateAccess = "true"))
-	TObjectPtr<UInputAction> MoveAction;
+	//UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Input, meta = (AllowPrivateAccess = "true"))
+	//TObjectPtr<UInputAction> MoveAction;
 
-	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Input, meta = (AllowPrivateAccess = "true"))
-	TObjectPtr<UInputAction> JumpAction;
-	
-	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Mesh, meta = (AllowPrivateAccess = "true"))
-	TObjectPtr<UStaticMeshComponent> PlayerMesh;
+	//UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Input, meta = (AllowPrivateAccess = "true"))
+	//TObjectPtr<UInputAction> JumpAction;
 
 
 	int m_health;
@@ -48,18 +46,25 @@ public:
 protected:
 	virtual void BeginPlay() override;
 
-	void Move(const FInputActionValue& Value);
-
-
 public:
+	//void Move(const FInputActionValue& Value);
+
 	int GetHealth() { return m_health; }
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	TObjectPtr<UCapsuleComponent> CapsuleComponent;
+	
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Mesh)
+	TObjectPtr<UStaticMeshComponent> PlayerMesh;
 
 	void PlayerHit();
 	
+	void CharacterGravity();
+
 	void OutOfBounds();
 
 	virtual void Tick(float DeltaTime) override;
 
-	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
+	//virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
 
 };
