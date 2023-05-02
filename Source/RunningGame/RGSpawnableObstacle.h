@@ -16,14 +16,30 @@ public:
 	ARGSpawnableObstacle();
 
 private:
-	void Disappear();
+	bool b_active = true;
+	bool b_pastplayer = false;
+
+	void CheckPassed();
+	
+protected:
+	virtual void Tick(float DeltaTime) override;
 
 public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 	TObjectPtr<UBoxComponent> CollisionArea;
 
+	
+	void ResetToLocation(FVector position);
+
+	bool GetActive() { return b_active; }
+
+	bool GetPassed() { return b_pastplayer; }
+
 	UFUNCTION()
-	void OnBeginOverlap(
+		void Disappear();
+
+	UFUNCTION()
+		void OnBeginOverlap(
 		UPrimitiveComponent* OverlappedComponent,
 		AActor* OtherActor,
 		UPrimitiveComponent* OtherComp,

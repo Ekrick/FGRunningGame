@@ -18,6 +18,8 @@ public:
 	ARGProjectileSpawnManager();
 
 private:
+	float speed;
+
 	void ZigZag(float Deltatime);
 
 
@@ -30,4 +32,6 @@ public:
 		float MoveSpeed = 500.0f;
 	
 	virtual void Tick(float DeltaTime) override;
+
+	virtual void BeginPlay() override;
 };

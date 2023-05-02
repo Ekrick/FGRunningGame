@@ -22,6 +22,7 @@ void ARGSpawnerBase::Tick(float DeltaTime)
 	Super::Tick(DeltaTime);
 	ARGSpawnerBase::SpawnTimer(DeltaTime);
 	ARGSpawnerBase::ProjectilePooler();
+	ARGSpawnerBase::RandomDespawns();
 }
 
 
@@ -49,10 +50,40 @@ void ARGSpawnerBase::ProjectilePooler()
 			{
 				FVector spawnpoint = this->GetActorLocation();
 				spawnpoint.X -= 100.f;
-				pooledprojectile->SetActorLocation(spawnpoint);
+				pooledprojectile->ResetToLocation(spawnpoint);
 				PoolArray.RemoveSingle(pooledprojectile);
 				PoolArray.Add(pooledprojectile);
 			}
+		}
+	}
+}
+
+void ARGSpawnerBase::RandomDespawns()
+{
+	for (int i = 0; i < PoolArray.Num(); i++)
+	{
+		TObjectPtr<ARGSpawnableObstacle> obstacle = PoolArray[i];
+		if (obstacle->GetActive() && obstacle->GetPassed())
+		{
+			obstacle->Disappear();
+			DespawnActive();
+			break;
+		}
+	}
+}
+
+void ARGSpawnerBase::DespawnActive()
+{
+	int roll = FMath::RandRange(1, 4);
+	if (roll > 1)
+		return;
+	for (int i = 0; i < PoolArray.Num(); i++)
+	{
+		TObjectPtr<ARGSpawnableObstacle> obstacle = PoolArray[i];
+		if (obstacle->GetActive() && !obstacle->GetPassed())
+		{
+			obstacle->Disappear();
+			return;
 		}
 	}
 }

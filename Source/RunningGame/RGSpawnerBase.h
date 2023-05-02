@@ -46,6 +46,10 @@ private:
 
 	void ProjectilePooler();
 
+	void RandomDespawns();
+
+	void DespawnActive();
+
 	void SpawnTimer(float Deltatime);
 
 
