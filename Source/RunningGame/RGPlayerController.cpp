@@ -10,6 +10,7 @@
 #include "GameFramework/Controller.h"
 #include "GameFramework/SpringArmComponent.h"
 #include "HighScoreList.h"
+#include "HighScoreEntry.h"
 #include "RGCharacter.h"
 
 ARGPlayerController::ARGPlayerController()
@@ -36,6 +37,7 @@ void ARGPlayerController::BeginPlay()
 	SpawnPlayers();
 
 	ScoreList = NewObject<UHighScoreList>();
+	ScoreList->LoadScores();
 
 	if (APlayerController* PlayerController = Cast<APlayerController>(Controller))
 	{
@@ -137,5 +139,7 @@ void ARGPlayerController::GameTimer(float DeltaTime)
 
 void ARGPlayerController::SaveScore()
 {
-	ScoreList->AddScore(ScoreList->NewEntry(f_time, StringMinutes, StringSeconds));
+	TObjectPtr<UHighScoreEntry> entry = ScoreList->NewEntry(f_time, StringMinutes, StringSeconds);
+	ScoreList->AddScore(entry);
+	ScoreList->SaveScores();
 }

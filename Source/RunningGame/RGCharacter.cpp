@@ -84,7 +84,7 @@ void ARGCharacter::CheckDeath()
 		{
 			playerpawn->SaveScore();
 			UKismetSystemLibrary::PrintString(this, "dead", true, true, FLinearColor::Red, 2.f);
-			UGameplayStatics::OpenLevel(this, FName(*GetWorld()->GetName()), false);
+			UGameplayStatics::OpenLevel(GetWorld(), FName("BP_MainMenu"), true);
 		}
 	}
 }

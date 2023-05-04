@@ -20,10 +20,7 @@ private:
 	FString F_FilePath;
 
 	TArray<TObjectPtr<UHighScoreEntry>> Scores;
-
-	void SaveScores();
-
-	void LoadScores();
+	
 
 public:
 	UPROPERTY(EditAnywhere, Category = "HighScores")
@@ -32,5 +29,10 @@ public:
 	TObjectPtr<UHighScoreEntry> NewEntry(float time, FString minutes, FString seconds);
 
 	void AddScore(TObjectPtr<UHighScoreEntry> entry);
+
+	TArray<TObjectPtr<UHighScoreEntry>> GetScoreList() { return Scores; }
 	
+	void SaveScores();
+
+	void LoadScores();
 };

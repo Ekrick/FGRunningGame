@@ -3,9 +3,11 @@
 
 #include "HighScoreList.h"
 #include "HighScoreEntry.h"
-#include "Serialization/ObjectAndNameAsStringProxyArchive.h"
-#include "Serialization/MemoryReader.h"
-#include "Misc/FileHelper.h"
+#include "RGSaveGame.h"
+#include "Kismet/GameplayStatics.h"
+//#include "Serialization/ObjectAndNameAsStringProxyArchive.h"
+//#include "Serialization/MemoryReader.h"
+//#include "Misc/FileHelper.h"
 
 
 UHighScoreList::UHighScoreList()
@@ -17,9 +19,9 @@ UHighScoreList::UHighScoreList()
 TObjectPtr<UHighScoreEntry> UHighScoreList::NewEntry(float time, FString minutes, FString seconds)
 {
 	TObjectPtr<UHighScoreEntry> Entry = NewObject<UHighScoreEntry>();
-	Entry->S_Minutes = minutes;
-	Entry->S_Seconds = seconds;
-	Entry->F_Time = time;
+	Entry->SetMin(minutes);
+	Entry->SetSec(seconds);
+	Entry->SetTime(time);
 
 	return Entry;
 }
@@ -32,48 +34,72 @@ void UHighScoreList::AddScore(TObjectPtr<UHighScoreEntry> entry)
 		return;
 	}
 
-	for (int i = 0; i < Scores.Num(); i++)
+	for (TObjectPtr<UHighScoreEntry>& score : Scores)
 	{
-		if (Scores[i]->F_Time < entry->F_Time)
+		if (score->GetTime() < entry->GetTime())
 		{
-			Scores.Insert(entry, i);
+			Scores.Insert(entry, Scores.Find(score));
 			if (Scores.Num() > HighScoreCount)
 			{
 				Scores.Pop();
 			}
-			return;
+			break;
 		}
 	}
 }
 
 void UHighScoreList::SaveScores()
 {
-	TArray<uint8> Data;
-	FMemoryWriter Writer(Data);
+	TObjectPtr<URGSaveGame> SaveInstance = Cast<URGSaveGame>(UGameplayStatics::CreateSaveGameObject(URGSaveGame::StaticClass()));
 
-	TArray<TObjectPtr<UHighScoreEntry>> SaveData = Scores;
-	FObjectAndNameAsStringProxyArchive Ar(Writer, true);
-	Ar << SaveData;
+	SaveInstance->ObjectList = Scores;
 
-	// Write the serialized data to a file
-	FFileHelper::SaveArrayToFile(Data, *F_FilePath);
-
+	UGameplayStatics::SaveGameToSlot(SaveInstance, "Save1", 0);
 }
 
 void UHighScoreList::LoadScores()
 {
-	TArray<uint8> Data;
-	if (!FFileHelper::LoadFileToArray(Data, *F_FilePath))
+	TObjectPtr<URGSaveGame> LoadedSaveGame = Cast<URGSaveGame>(UGameplayStatics::LoadGameFromSlot("Save1", 0));
+	Scores.Empty();
+	if (LoadedSaveGame)
 	{
-		// File could not be loaded
-		return;
+		Scores = LoadedSaveGame->ObjectList;
 	}
-
-	// Deserialize the binary data
-	FMemoryReader Reader(Data, true);
-	TArray<TObjectPtr<UHighScoreEntry>> LoadedData;
-	FObjectAndNameAsStringProxyArchive Ar(Reader, true);
-	Ar << LoadedData;
-
-	Scores = LoadedData;
 }
+
+
+
+
+
+
+//void UHighScoreList::SaveScores()
+//{
+//	TArray<uint8> Data;
+//	FMemoryWriter Writer(Data);
+//
+//	TArray<TObjectPtr<UHighScoreEntry>> SaveData = Scores;
+//	FObjectAndNameAsStringProxyArchive Ar(Writer, true);
+//	Ar << SaveData;
+//
+//	// Write the serialized data to a file
+//	FFileHelper::SaveArrayToFile(Data, *F_FilePath);
+//
+//}
+//
+//void UHighScoreList::LoadScores()
+//{
+//	TArray<uint8> Data;
+//	if (!FFileHelper::LoadFileToArray(Data, *F_FilePath))
+//	{
+//		// File could not be loaded
+//		return;
+//	}
+//
+//	// Deserialize the binary data
+//	FMemoryReader Reader(Data, true);
+//	TArray<TObjectPtr<UHighScoreEntry>> LoadedData;
+//	FObjectAndNameAsStringProxyArchive Ar(Reader, true);
+//	Ar << LoadedData;
+//
+//	Scores = LoadedData;
+//}
