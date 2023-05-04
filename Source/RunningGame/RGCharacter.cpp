@@ -4,6 +4,7 @@
 #include "RGCharacter.h"
 #include "Components/CapsuleComponent.h"
 #include "Components/StaticMeshComponent.h"
+#include "RGPlayerController.h"
 //#include "Camera/CameraComponent.h"
 //#include "Components/InputComponent.h"
 //#include "GameFramework/CharacterMovementComponent.h"
@@ -71,10 +72,20 @@ void ARGCharacter::PlayerHit()
 {
 	m_health --;
 	UKismetSystemLibrary::PrintString(this, "hit", true, true, FLinearColor::Red, 2.f);
+	CheckDeath();
+}
+
+void ARGCharacter::CheckDeath()
+{
 	if (m_health <= 0)
 	{
-		UKismetSystemLibrary::PrintString(this, "dead", true, true, FLinearColor::Red, 2.f);
-		UGameplayStatics::OpenLevel(this, FName(*GetWorld()->GetName()), false);
+		TObjectPtr<ARGPlayerController> playerpawn = Cast<ARGPlayerController>(GetWorld()->GetFirstPlayerController()->GetPawn());
+		if (playerpawn)
+		{
+			playerpawn->SaveScore();
+			UKismetSystemLibrary::PrintString(this, "dead", true, true, FLinearColor::Red, 2.f);
+			UGameplayStatics::OpenLevel(this, FName(*GetWorld()->GetName()), false);
+		}
 	}
 }
 
@@ -105,6 +116,7 @@ void ARGCharacter::OutOfBounds()
 		UGameplayStatics::OpenLevel(this, FName(*GetWorld()->GetName()), false);
 	}
 }
+
 
 //void ARGCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
 //{

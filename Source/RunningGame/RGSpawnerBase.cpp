@@ -23,6 +23,7 @@ void ARGSpawnerBase::Tick(float DeltaTime)
 	ARGSpawnerBase::SpawnTimer(DeltaTime);
 	ARGSpawnerBase::ProjectilePooler();
 	ARGSpawnerBase::RandomDespawns();
+	ARGSpawnerBase::DifficultyScaling(DeltaTime);
 }
 
 
@@ -34,12 +35,14 @@ void ARGSpawnerBase::ProjectilePooler()
 		{
 			b_canSpawn = false;
 			TObjectPtr<ARGSpawnableObstacle> newprojectile = SpawnObject();
+			newprojectile->SetSpeed(f_speed);
 			PoolArray.Add(newprojectile);
 		}
 		else if (PoolArray.Num() < ProjectileCount)
 		{
 			b_canSpawn = false;
 			TObjectPtr<ARGSpawnableObstacle> newprojectile = SpawnObject();
+			newprojectile->SetSpeed(f_speed);
 			PoolArray.Add(newprojectile);
 		}
 		else
@@ -51,6 +54,7 @@ void ARGSpawnerBase::ProjectilePooler()
 				FVector spawnpoint = this->GetActorLocation();
 				spawnpoint.X -= 100.f;
 				pooledprojectile->ResetToLocation(spawnpoint);
+				pooledprojectile->SetSpeed(f_speed);
 				PoolArray.RemoveSingle(pooledprojectile);
 				PoolArray.Add(pooledprojectile);
 			}
@@ -94,6 +98,28 @@ TObjectPtr<ARGSpawnableObstacle> ARGSpawnerBase::SpawnObject()
 	spawnpoint.X -= 100.f;
 	TObjectPtr<ARGSpawnableObstacle> spawnobject = GetWorld()->SpawnActor<ARGSpawnableObstacle>(SpawnedObject, spawnpoint, FRotator::ZeroRotator);
 	return spawnobject;
+}
+
+void ARGSpawnerBase::DifficultyScaling(float Deltatime)
+{
+	f_difficulty += Deltatime;
+	if (f_difficulty >= 10)
+	{
+		f_difficulty = 0;
+		i_difficulty += 1;
+	}
+
+	f_speed = 2000 + (i_difficulty * 100);
+
+
+	TimerMin = 1 / FMath::Sqrt(i_difficulty + 1);
+	TimerMax = TimerMin + 1.f;
+
+	if (i_difficulty > 12)
+	{
+		TimerMin = 0.25f;
+		TimerMax = 0.1f;
+	}
 }
 
 void ARGSpawnerBase::SpawnTimer(float dt)

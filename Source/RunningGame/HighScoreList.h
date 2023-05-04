@@ -6,24 +6,31 @@
 #include "UObject/NoExportTypes.h"
 #include "HighScoreList.generated.h"
 
-/**
- * 
- */
+class UHighScoreEntry;
+
 UCLASS()
 class RUNNINGGAME_API UHighScoreList : public UObject
 {
 	GENERATED_BODY()
 
+public:
+	UHighScoreList();
+
 private:
-	TArray<float> Scores;
+	FString F_FilePath;
+
+	TArray<TObjectPtr<UHighScoreEntry>> Scores;
+
+	void SaveScores();
+
+	void LoadScores();
 
 public:
 	UPROPERTY(EditAnywhere, Category = "HighScores")
 		int HighScoreCount = 5;
 
-	UFUNCTION(BlueprintCallable, Category = "HighScores")
-		static float LoadScores();
+	TObjectPtr<UHighScoreEntry> NewEntry(float time, FString minutes, FString seconds);
 
-	UFUNCTION(BlueprintCallable, Category = "HighScores")
-		void AddScore(float score);
+	void AddScore(TObjectPtr<UHighScoreEntry> entry);
+	
 };

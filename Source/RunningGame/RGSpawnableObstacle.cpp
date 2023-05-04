@@ -26,6 +26,7 @@ void ARGSpawnableObstacle::CheckPassed()
 	if (this->GetActorLocation().X < 100)
 	{
 		b_pastplayer = true;
+		MoveSpeed = 100;
 	}
 }
 

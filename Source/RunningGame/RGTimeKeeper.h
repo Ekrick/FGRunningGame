@@ -15,6 +15,9 @@ public:
 
 private:
 	float f_time;
+	int seconds;
+	int minutes;
+
 
 	void GameTimer(float DeltaTime);
 
@@ -22,6 +25,9 @@ protected:
 	virtual void BeginPlay() override;
 
 public:	
+	int GetTimerMinutes() { return minutes; }
+	int GetTimerSeconds() { return seconds; }
+
 	virtual void Tick(float DeltaTime) override;
 
 	float GetGameTime() { return f_time; }

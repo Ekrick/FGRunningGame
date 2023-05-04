@@ -24,9 +24,19 @@ void ARGTimeKeeper::Tick(float DeltaTime)
 	GameTimer(DeltaTime);
 }
 
+
+
 void ARGTimeKeeper::GameTimer(float DeltaTime)
 {
 	f_time += DeltaTime;
+
+	seconds += (int)DeltaTime;
+	if (seconds >= 60)
+	{
+		minutes++;
+		seconds = 0;
+	}
 }
+
 
 

@@ -35,6 +35,8 @@ public:
 
 	bool GetPassed() { return b_pastplayer; }
 
+	void SetSpeed(float newspeed) { MoveSpeed = newspeed; }
+
 	UFUNCTION()
 		void Disappear();
 

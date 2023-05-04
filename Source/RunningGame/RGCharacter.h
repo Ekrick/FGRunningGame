@@ -42,7 +42,6 @@ private:
 public:
 	ARGCharacter();
 
-
 protected:
 	virtual void BeginPlay() override;
 
@@ -57,7 +56,10 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Mesh)
 	TObjectPtr<UStaticMeshComponent> PlayerMesh;
 
+
 	void PlayerHit();
+
+	void CheckDeath();
 	
 	void CharacterGravity();
 
