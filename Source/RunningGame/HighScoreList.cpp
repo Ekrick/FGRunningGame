@@ -63,7 +63,7 @@ void UHighScoreList::SaveScores()
 	SaveInstance->SecondsList.Empty();
 	SaveInstance->TimeList.Empty();
 
-	for (int16 i = 0; i < Scores.Num(); i++)
+	for (int i = 0; i < Scores.Num(); i++)
 	{
 		TObjectPtr<UHighScoreEntry> score = Scores[i];
 
@@ -82,7 +82,7 @@ void UHighScoreList::LoadScores()
 	Scores.Empty();
 	if (LoadedSaveGame)
 	{
-		for (int16 i = 0; i < LoadedSaveGame->MinutesList.Num(); i++)
+		for (int i = 0; i < LoadedSaveGame->MinutesList.Num(); i++)
 		{
 			TObjectPtr<UHighScoreEntry> score = NewEntry(LoadedSaveGame->TimeList[i], LoadedSaveGame->MinutesList[i], LoadedSaveGame->SecondsList[i]);
 			Scores.Add(score);
