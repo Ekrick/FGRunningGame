@@ -13,3 +13,4 @@ ARunningGameGameMode::ARunningGameGameMode()
 		DefaultPawnClass = PlayerPawnBPClass.Class;
 	}
 }
+

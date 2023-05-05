@@ -8,6 +8,13 @@ ARGProjectileSpawnManager::ARGProjectileSpawnManager()
 	ObjectMesh->SetupAttachment(GetRootComponent());
 }
 
+void ARGProjectileSpawnManager::BeginPlay()
+{
+	Super::BeginPlay();
+
+	speed = MoveSpeed;
+}
+
 void ARGProjectileSpawnManager::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
@@ -21,12 +28,16 @@ void ARGProjectileSpawnManager::ZigZag(float Deltatime)
 
 	FVector ActorPosition = this->GetActorLocation();
 
-	if (ActorPosition.Y >= maxPos || ActorPosition.Y <= minPos)
+	if (ActorPosition.Y >= maxPos)
 	{
-		MoveSpeed *= -1;
+		speed = -MoveSpeed;
+	}
+	else if (ActorPosition.Y <= minPos)
+	{
+		speed = MoveSpeed;
 	}
 
-	ActorPosition.Y += MoveSpeed * Deltatime;
+	ActorPosition.Y += speed * Deltatime;
 
 	SetActorLocation(ActorPosition);
 }

@@ -24,6 +24,11 @@ private:
 
 	float f_currentTimer;
 
+	float f_speed = 2000;
+
+	int i_difficulty = 0;
+	float f_difficulty = 0.f;
+
 
 	TArray<TObjectPtr<ARGSpawnableObstacle>> PoolArray;
 
@@ -39,12 +44,18 @@ public:
 		float TimerMin = 1.0f;
 
 	UPROPERTY(EditAnywhere, Category = "Settings")
-		int ProjectileCount = 5;
+		int ProjectileCount = 7;
 
 private:
 	TObjectPtr<ARGSpawnableObstacle> SpawnObject();
 
+	void DifficultyScaling(float Deltatime);
+
 	void ProjectilePooler();
+
+	void RandomDespawns();
+
+	void DespawnActive();
 
 	void SpawnTimer(float Deltatime);
 

@@ -11,6 +11,7 @@ class ARunningGameGameMode : public AGameModeBase
 {
 	GENERATED_BODY()
 
+
 public:
 	ARunningGameGameMode();
 };
