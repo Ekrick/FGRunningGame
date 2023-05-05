@@ -31,5 +31,4 @@ public:
 	void SetSec(FString in_string) { S_Seconds = in_string; }
 	void SetTime(float in_float) { F_Time = in_float; }
 
-    void Serialize(FArchive& Archive);
 };

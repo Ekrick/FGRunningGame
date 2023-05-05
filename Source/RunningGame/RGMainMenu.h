@@ -22,7 +22,7 @@ protected:
 	virtual void BeginPlay() override;
 
 public:
-	UPROPERTY(BlueprintReadOnly)
-	TArray<TObjectPtr<UHighScoreEntry>> Scores;
+	UFUNCTION(BlueprintCallable)
+	FString PrintScores();
 
 };

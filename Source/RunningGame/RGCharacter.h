@@ -7,10 +7,7 @@
 #include "InputActionValue.h"
 #include "RGCharacter.generated.h"
 
-//class USpringArmComponent;
-//class UCameraComponent;
-//class UInputMappingContext;
-//class UInputAction;
+
 class UCapsuleComponent;
 class UStaticMeshComponent;
 
@@ -21,21 +18,6 @@ class RUNNINGGAME_API ARGCharacter : public AActor
 	GENERATED_BODY()
 
 private:
-	//UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Camera, meta = (AllowPrivateAccess = "true"))
-	//TObjectPtr<USpringArmComponent> CameraBoom;
-
-	//UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Camera, meta = (AllowPrivateAccess = "true"))
-	//TObjectPtr<UCameraComponent> FollowCamera;
-
-	//UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Input, meta = (AllowPrivateAccess = "true"))
-	//TObjectPtr<UInputMappingContext> MappingContext;
-
-	//UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Input, meta = (AllowPrivateAccess = "true"))
-	//TObjectPtr<UInputAction> MoveAction;
-
-	//UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Input, meta = (AllowPrivateAccess = "true"))
-	//TObjectPtr<UInputAction> JumpAction;
-
 
 	int m_health;
 
@@ -46,7 +28,6 @@ protected:
 	virtual void BeginPlay() override;
 
 public:
-	//void Move(const FInputActionValue& Value);
 
 	int GetHealth() { return m_health; }
 
@@ -59,7 +40,7 @@ public:
 
 	void PlayerHit();
 
-	void CheckDeath();
+	void PlayerDeath();
 	
 	void CharacterGravity();
 
@@ -67,6 +48,5 @@ public:
 
 	virtual void Tick(float DeltaTime) override;
 
-	//virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
 
 };

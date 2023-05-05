@@ -34,6 +34,7 @@ void ARGPlayerController::BeginPlay()
 {
 	Super::BeginPlay();
 
+
 	SpawnPlayers();
 
 	ScoreList = NewObject<UHighScoreList>();
@@ -41,6 +42,9 @@ void ARGPlayerController::BeginPlay()
 
 	if (APlayerController* PlayerController = Cast<APlayerController>(Controller))
 	{
+		PlayerController->bShowMouseCursor = false;
+		PlayerController->SetInputMode(FInputModeGameAndUI());
+
 		if (UEnhancedInputLocalPlayerSubsystem* Subsystem = ULocalPlayer::GetSubsystem<UEnhancedInputLocalPlayerSubsystem>(PlayerController->GetLocalPlayer()))
 		{
 			Subsystem->AddMappingContext(MappingContext, 0);

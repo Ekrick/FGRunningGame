@@ -81,7 +81,7 @@ void ARGSpawnerBase::DespawnActive()
 	int roll = FMath::RandRange(1, 4);
 	if (roll > 1)
 		return;
-	for (int i = 0; i < PoolArray.Num(); i++)
+	for (int i = PoolArray.Num() - 1; i > 0; i--)
 	{
 		TObjectPtr<ARGSpawnableObstacle> obstacle = PoolArray[i];
 		if (obstacle->GetActive() && !obstacle->GetPassed())

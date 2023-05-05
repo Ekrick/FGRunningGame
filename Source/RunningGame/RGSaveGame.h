@@ -15,5 +15,11 @@ class RUNNINGGAME_API URGSaveGame : public USaveGame
 	
 public:
 	UPROPERTY()
-	TArray<TObjectPtr<UHighScoreEntry>> ObjectList;
+	TArray<FString> MinutesList;
+
+	UPROPERTY()
+	TArray<FString> SecondsList;
+
+	UPROPERTY()
+	TArray<float> TimeList;
 };
