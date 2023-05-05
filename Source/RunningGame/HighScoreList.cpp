@@ -35,12 +35,6 @@ void UHighScoreList::AddScore(TObjectPtr<UHighScoreEntry> entry)
 		return;
 	}
 
-	if (Scores.Num() < HighScoreCount)
-	{
-		Scores.Add(entry);
-		return;
-	}
-
 	for (TObjectPtr<UHighScoreEntry>& score : Scores)
 	{
 		if (score->GetTime() < entry->GetTime())
